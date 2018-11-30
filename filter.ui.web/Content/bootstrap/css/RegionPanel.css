@@ -1,0 +1,133 @@
+﻿/*-------- 区域物流配送 Areabx => deliveryPanel Start --------*/
+.deliveryPanel .info .address
+{
+    min-width:50px; height:20px; display:inline-block; 
+    text-align:left; font-size:12px; color:#333333; line-height:20px; text-decoration:none; 
+    background:url("data:image/gif;base64,R0lGODlhBwAEAIABAFdXV////yH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjEgNjQuMTQwOTQ5LCAyMDEwLzEyLzA3LTEwOjU3OjAxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1LjEgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpENTBFQTE0NTJFRDgxMUUyQTJCOTg4RTU0MkNCRkJDQSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpENTBFQTE0NjJFRDgxMUUyQTJCOTg4RTU0MkNCRkJDQSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkQ1MEVBMTQzMkVEODExRTJBMkI5ODhFNTQyQ0JGQkNBIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkQ1MEVBMTQ0MkVEODExRTJBMkI5ODhFNTQyQ0JGQkNBIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkEAQAAAQAsAAAAAAcABAAAAgiED4EZag1ZKAA7") no-repeat scroll 96% center #ffffff; 
+    border:1px solid #CCCCCC; 
+    cursor:pointer; 
+    margin:3px 0 0 2px; 
+    padding:0 2px 0 5px; 
+    position:relative;}
+.deliveryPanel .info .address em { margin-right: 15px;}
+.deliveryPanel .info .warn-dely
+{
+    display: inline-block;
+    background-color:#ff6600;
+    text-align:left;
+    color:#ffffff;
+    padding:1px 9px;
+    border-radius:3px;
+}
+.deliveryPanel .info .freight, .deliveryPanel.detail .free
+{
+    height:16px; 
+    display:inline-block; 
+    font-size:12px; line-height:16px; 
+    padding:2px 0px 2px 3px;}
+.deliveryPanel .info .hide
+{
+    display: none;
+}
+.deliveryPanel .info .province
+{
+    height:16px; 
+    display:inline-block; 
+    font-size:12px; color:#333333; line-height:16px; text-decoration:none; 
+    margin:0px; padding:0px;}
+.deliveryPanel .info .province select{width:63px; height:18px; margin-top:3px;}
+.deliveryPanel.noAreaFliter .address{ cursor: default;}
+/*.areaWrap
+{
+    width:310px; 
+    text-align:left; font-size:12px; 
+    background-color:#FEF9F2; 
+    border:1px solid #CCCCCC; 
+    padding-bottom:10px; 
+    position:absolute; right:-2px; top:22px; z-index:999;}
+.areaWrap .area{width:300px; padding:25px 5px 5px; position:relative;height: 170px;}
+.areaWrap .area a.close
+{
+    width:45px; height:15px; overflow:hidden; display:block; 
+    text-align:center; font-size:12px; color:#666666; 
+    background:url("http://images.lifevc.com/images/icon_pop_bank.png") no-repeat scroll 0 -35px transparent; 
+    cursor:pointer; 
+    position:absolute; right:5px; top:5px;}
+.areaWrap .area ul{width:300px; margin-bottom:5px; clear:both;}
+.areaWrap .area ul, .areaWrap .area li {list-style: none outside none;margin: 0;padding: 0;}
+.areaWrap .area li{width:50px; float:left; cursor:pointer;}
+.areaWrap .area li a{display:block; float:left; color:#333333; text-decoration:none; padding:5px; white-space:nowrap;}
+.areaWrap .area li a:visited{ background-color: transparent;}
+.areaWrap .area li a.hover,
+.areaWrap .area li a.selected
+{
+    display:block; float:left; 
+    color:#ffffff; color:#ffffff !important; text-decoration:none; 
+    padding:5px; 
+    white-space:nowrap; 
+    background-color:#83B842;}*/
+
+/*区域物流配送 产品页面*/
+/*.deliveryPanel.detail { color: #FFFFFF;}*/
+.deliveryPanel.detail .label{float: left; width: 56px;line-height: 25px;}
+.deliveryPanel.detail .info {float: left;height: 25px;position: relative;text-align: left;width:450px; z-index:9;}
+
+/*区域物流配送--购物车*/
+
+.deliveryPanel.cart .info {width:210px; height:25px; display:inline; }
+.deliveryPanel.cart .info .address{border:1px solid #CCCCCC; margin-top:0px;}
+.deliveryPanel.cart .free{height:16px; display:inline-block; font-size:12px; color:#000; line-height:16px; padding:2px 0px 2px 10px;}
+.deliveryPanel.cart .areaWrap {bottom: 22px;top: auto;}
+.deliveryPanel.cart .info .freight, .deliveryPanel.cart .areaWrap a {color: #333333 !important;}
+.deliveryPanel.cart li a.hover, .deliveryPanel.cart li a.select {color: #FFFFFF !important;}
+/*#orderAmountInfo{ float: right;margin-left: 20px;}*/
+.deliveryPanel .info .freight, .deliveryPanel.cart .info .free{ display: none;}
+
+/*区域物流配送--结算页面, 快捷下单*/
+.deliveryPanel.checkout, .deliveryPanel.qpo{display: inline-block;}
+.deliveryPanel.checkout
+{
+    min-width:135px;
+    float:left;
+    margin-right:10px;
+}
+.deliveryPanel.checkout .info, .deliveryPanel.qpo .info {width:210px; height:25px; display:inline; }
+.deliveryPanel.checkout .free, .deliveryPanel.qpo .free{height:16px; display:inline-block; font-size:12px; color:#000; line-height:16px; padding:2px 0px 2px 10px;}
+.deliveryPanel.checkout .info .address, .deliveryPanel.qpo .info .address{border: 1px solid #999;margin:0;}
+
+
+/*区域物流配送--活动领取弹出框*/
+.popbank .deliveryPanel .info {width:210px; height:25px; display:inline; }
+
+.regionPop {width:85%; text-align:left; font-size:12px; background-color:#FEF9F2; border:1px solid #CCCCCC; margin:0; padding:20px 5px 10px; position:fixed; left:6%; top:26%; z-index:9999;}
+/*区域物流配送--购物车*/
+/*.deliveryPanel.cart .regionPop{bottom: 22px;top: auto;}*/
+
+/*结算页面, 快捷下单*/
+/*.deliveryPanel.checkout .regionPop, .deliveryPanel.qpo .regionPop{left: -1px;right: auto;}*/
+
+.regionPop a.close{width:45px; height:15px; overflow:hidden; display:block; text-align:center; font-size:12px; color:#666666; 
+    background:url("http://1art.oss-cn-shanghai.aliyuncs.com/images/icon_pop_bank.png") no-repeat scroll 0 -35px transparent;
+    cursor:pointer; position:absolute; right:5px; top:10px;}
+.regionPop ul{width:100%; margin-bottom:5px; clear:both;}
+.regionPop ul, .regionPop li{list-style: none outside none;margin: 0;padding: 0;border:0;}
+.regionPop li{min-width:50px; float:left; cursor:pointer; padding:3px;}
+.regionPop li a{display:block; float:left; color:#333333; text-decoration:none; padding:3px; white-space:nowrap;}
+.regionPop li a:visited{ background-color: transparent;}
+.regionPop li.selected a{color:#ffffff !important; text-decoration:none; background-color:#83B842;}
+
+.rgsel-cont{padding:12px 5px;}
+.rgsel,.rgsel:link,.rgsel:visited,
+.rgsel:hover,.rgsel:active
+{background:url("data:image/gif;base64,R0lGODlhBwAEAIABAFdXV////yH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjEgNjQuMTQwOTQ5LCAyMDEwLzEyLzA3LTEwOjU3OjAxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1LjEgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpENTBFQTE0NTJFRDgxMUUyQTJCOTg4RTU0MkNCRkJDQSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpENTBFQTE0NjJFRDgxMUUyQTJCOTg4RTU0MkNCRkJDQSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkQ1MEVBMTQzMkVEODExRTJBMkI5ODhFNTQyQ0JGQkNBIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkQ1MEVBMTQ0MkVEODExRTJBMkI5ODhFNTQyQ0JGQkNBIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkEAQAAAQAsAAAAAAcABAAAAgiED4EZag1ZKAA7") no-repeat scroll 92% center #ffffff; 
+    border:1px solid #CCCCCC; text-decoration:none; margin-right:1px; padding:5px 20px 5px 5px;}
+.rgsel:hover, .rgsel:active{border-color: #83b842;}
+.rgsel.selected{ color: #1a65a6;}
+.rgsel.disabled {color:#999999; background-color: #efefef; border-color:#dddddd;cursor: default; }
+.rgsel.active{ color: #83b842; border:1px solid #83b842; cursor: default;}
+.rglist-cont { min-height: 50px; }
+#rgWrapCity li, #rgWrapDistrict li{width:auto; margin-right:4px;}
+
+/*-------- /区域物流配送 Areabx => deliveryPanel End --------*/
+body {
+}

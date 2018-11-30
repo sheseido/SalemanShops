@@ -1,0 +1,51 @@
+﻿/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}*/
+
+/* Set padding to keep content from hitting the edges */
+/*.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}*/
+
+/* Set width on the form input elements since they're 100% wide by default */
+/*input,
+select,
+textarea {
+    max-width: 280px;
+}*/
+
+.ml10 {
+    margin-left: 10px;
+}
+
+/*========  autoComplete  ========*/
+.auto-complete-nest{
+    position: relative;
+    z-index: 99999;
+}
+.auto-complete-droppanel {
+    position: absolute;
+    left: 0;
+    top: 35px;
+    z-index: 99;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.auto-complete-droppanel .item {
+    display: block;
+    padding: 5px 10px;
+    margin: 0;
+    text-align: left;
+    line-height: 24px;
+}
+    .auto-complete-droppanel .item:hover{
+        background-color:lightsteelblue;
+        cursor: pointer;
+    }

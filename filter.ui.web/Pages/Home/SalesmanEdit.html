@@ -1,0 +1,36 @@
+﻿<fieldset>
+    <div class="container-fluid width_auto">
+        <div class="row form-group">
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <label>
+                    姓名
+                    <span style="color: red">*</span>
+                </label>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 input-group">
+                <input type="text" class="form-control" ng-model="current.Name" required="required" />
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <label>
+                    手机号
+                    <span style="color: red">*</span>
+                </label>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 input-group">
+                <input type="text" class="form-control" ng-model="current.Mobile" required="required" />
+
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <label>
+                    结算价
+                </label>
+                <span style="color: red">*</span>
+            </div>
+            <div class="col-md-4 input-group">
+                <input type="text" class="form-control" ng-model="current.SettlementPrice" required="required" />
+            </div>
+        </div>
+    </div>
+</fieldset>

@@ -1,0 +1,647 @@
+﻿@{
+    ViewBag.Title = "业务员店铺筛选平台";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    @@media only screen and (max-width: 800px) {
+
+        .ng-table-responsive thead tr th {
+            display: none;
+        }
+
+        .content {
+            padding: 0 0 0 0;
+        }
+
+        .ng-table-responsive td {
+            text-align: right;
+        }
+    }
+
+    .required::after {
+        content: "*";
+        color: red;
+        margin-left: 1rem;
+    }
+
+    @@media (min-width: 820px) {
+        .modal-dialog {
+            width: 800px;
+            margin: 30px auto;
+        }
+    }
+
+    .input-group[class*="col-md-4"] {
+        float: left;
+    }
+</style>
+
+<div ng-controller="TopCtrl">
+    <header class="main-header">
+        <a href="#" class="logo">
+            <span class="logo-mini"></span>
+            <span class="logo-lg">业务员店铺筛选平台</span>
+
+        </a>
+        <nav class="navbar navbar-static-top" role="navigation">
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">收起菜单</span>
+            </a>
+            @*<div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown user user-menu">
+                        <a>客服QQ：{{ServicesQQ.Value}}</a>
+                    </li>
+                    <li class="dropdown user user-menu">
+                        <a>欢迎：{{User.NickName}}</a>
+                    </li>
+                    <li class="dropdown user user-menu">
+                        <a>等级：{{User.LevelDesc}}</a>
+                    </li>
+                    <li class="dropdown user user-menu">
+                        <a>余额：{{User.Balance}} 元</a>
+                    </li>
+                    <li>
+                        <a href="#" ng-click="openModifyPassword()">修改登录密码</a>
+                    </li>
+                    <li>
+                        <a href="#" ng-click="logout()">注销</a>
+                    </li>
+                </ul>
+            </div>*@
+        </nav>
+    </header>
+
+    <div class="modal fade ModifyUserPasswordModal">
+        <div class="modal-dialog" ng-model="current">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <label>修改密码 - 登陆用户</label>
+                </div>
+                <div class="modal-body">
+                    <form name="ModifyFromUserPasswordModal" novalidate>
+                        <div class="row form-group ">
+                            <div class="col-md-2 col-sm-2 col-xs-2">
+                                <label>
+                                    原始密码
+                                </label>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4 input-group">
+                                <input type="password" class="form-control" ng-model="current.OldPassowrd" required />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-2 col-sm-2 col-xs-2">
+                                <label>
+                                    新密码
+                                </label>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4 input-group">
+                                <input type="password" class="form-control" ng-model="current.Password" required />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-2 col-sm-2 col-xs-2">
+                                <label>
+                                    确认密码
+                                </label>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4 input-group">
+                                <input type="password" class="form-control" ng-model="current.Password2" required />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-info-bgf" ng-click="modifyPassword(current)" value="保存" ng-disabled="ModifyFromUserPasswordModal.$invalid" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-controller="CenterEndCtrl">
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="header">导航菜单</li>
+                <li class="treeview" ng-repeat="menu in menus">
+                    <a href=".{{menu.code}}">
+                        <i class="fa" ng-class="'fa-'+menu.code"></i>
+                        <span>{{menu.name}}</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu" ng-class="menu.code">
+                        <li ng-repeat="item in menu.items">
+                            <a ng-click="addTab(item)"><i class="fa fa-circle-o"></i>{{item.title}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </aside>
+
+    <div class="content-wrapper">
+        <section class="content-header"></section>
+
+        <section class="content">
+            <uib-tabset active="activeTabIndex">
+                <uib-tab ng-repeat="tab in tabs" index="tab.index" select="onTabSelect($index)">
+                    <uib-tab-heading>
+                        {{tab.title}} <i class="fa fa-times" ng-click="removeTab($index)"></i>
+                    </uib-tab-heading>
+                    <div dynamic="tab.content"></div>
+                </uib-tab>
+            </uib-tabset>
+        </section>
+
+        <toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    function aspmvc($httpProvider) {
+        $httpProvider.defaults.headers.post["Content-Type"] = "application/json;charset=utf-8";
+        $httpProvider.defaults.transformRequest = [
+            function (data) {
+                return JSON.stringify(data);
+            }
+        ];
+    };
+
+    var centerEndApp = angular.module("centerEndApp", [
+        "ngTable", "ngRoute", 'ngAnimate', 'ui.bootstrap', 'ui.bootstrap.datetimepicker', 'ui.select', 'ngCookies', 'chart.js',
+        'as.sortable', 'toaster', 'angularFileUpload', 'angucomplete', "angularFileUpload", "oc.lazyLoad", "ngFileUpload",
+    ], aspmvc);
+
+    initHttp(centerEndApp);
+
+    centerEndApp.filter("money", function () {
+        var localUriFilter = function (input) {
+            if (input) {
+
+                return "￥" + input.toFixed(2);
+            }
+            return input;
+        };
+        return localUriFilter;
+    });
+
+    centerEndApp.filter("trusted", ["$sce", function ($sce) {
+        return function (html) {
+            if (typeof html == 'string')   //判断类型为字符串
+                return $sce.trustAsHtml(html);
+            return html;
+        }
+    }])
+
+    centerEndApp.filter("textLength", function () {
+        return function (value, maxLength) {
+            if (!value) return '';
+
+            maxLength = parseInt(maxLength, 10);
+            if (!maxLength) return value;
+            if (value.length <= maxLength) return value;
+
+            value = value.substr(0, maxLength);
+            return value + '…';
+        };
+    });
+
+    centerEndApp.filter("datetimes", function () {
+        var localUriFilter = function (input) {
+            if (input) {
+
+                return input.replace("T", " ");
+            }
+            return input;
+        };
+        return localUriFilter;
+    });
+
+    centerEndApp.directive('dynamic', function ($compile) {
+        return {
+            restrict: 'A',
+            replace: true,
+            link: function (scope, ele, attrs) {
+                scope.$watch(attrs.dynamic, function (html) {
+                    ele.html(html);
+                    $compile(ele.contents())(scope);
+                });
+            }
+        };
+    });
+
+    centerEndApp.directive("ckeditor", function ($location) {
+        return {
+            require: '?ngModel',
+            link: function (scope, element, attrs, ngModel) {
+                if (attrs.name in CKEDITOR.instances) {
+                    CKEDITOR.instances[attrs.name].destroy();
+                }
+
+                var schema = $location.protocol() + "://";
+                var host = $location.host();
+                if ($location.port() != 80 && $location.port() != 443) {
+                    host += ":" + $location.port();
+                }
+                var callbackUrl = schema + host + "/pages/transfer.html";
+
+                var ckeditor = CKEDITOR.replace(element[0], {
+                    filebrowserImageUploadUrl: appService.File.FileBG + "?callbackUrl=" + encodeURI(callbackUrl)
+                });
+
+                if (!ngModel) {
+                    return;
+                }
+
+                ckeditor.on('instanceReady', function () {
+                    ckeditor.setData(ngModel.$viewValue);
+                });
+
+                ckeditor.on('change', function () {
+                    scope.$apply(function () {
+                        ngModel.$setViewValue(ckeditor.getData());
+                    });
+                });
+
+                ngModel.$render = function (value) {
+                    ckeditor.setData(ngModel.$viewValue);
+                };
+            }
+        };
+    });
+
+    centerEndApp.directive('ngThumb', [
+        '$window', function ($window) {
+            var helper = {
+                support: !!($window.FileReader && $window.CanvasRenderingContext2D),
+                isFile: function (item) {
+                    return angular.isObject(item) && item instanceof $window.File;
+                },
+                isImage: function (file) {
+                    var type = '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
+                    return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+                }
+            };
+
+            return {
+                restrict: 'A',
+                template: '<canvas/>',
+                link: function (scope, element, attributes) {
+                    if (!helper.support) return;
+
+                    var params = scope.$eval(attributes.ngThumb);
+
+                    if (!helper.isFile(params.file)) return;
+                    if (!helper.isImage(params.file)) return;
+
+                    var canvas = element.find('canvas');
+                    var reader = new FileReader();
+
+                    reader.onload = onLoadFile;
+                    reader.readAsDataURL(params.file);
+
+                    function onLoadFile(event) {
+                        var img = new Image();
+                        img.onload = onLoadImage;
+                        img.src = event.target.result;
+                    }
+
+                    function onLoadImage() {
+                        var width = params.width || this.width / this.height * params.height;
+                        var height = params.height || this.height / this.width * params.width;
+                        canvas.attr({ width: width, height: height });
+                        canvas[0].getContext('2d').drawImage(this, 0, 0, width, height);
+                    }
+                }
+            };
+        }
+    ]);
+
+    centerEndApp.factory('backendHubProxy', ['$rootScope',
+        function ($rootScope) {
+
+            function backendFactory() {
+                return {
+                    on: function (eventName, callback) {
+                        proxy.on(eventName, function (result) {
+                            $rootScope.$apply(function () {
+                                if (callback) {
+                                    callback(result);
+                                }
+                            });
+                        });
+                    },
+                    invoke: function (methodName, callback) {
+                        proxy.invoke(methodName)
+                            .done(function (result) {
+                                $rootScope.$apply(function () {
+                                    if (callback) {
+                                        callback(result);
+                                    }
+                                });
+                            });
+                    }
+                };
+            };
+
+            return backendFactory;
+        }]);
+
+    centerEndApp.directive('dtpLocaldate', [
+        '$parse', function ($parse) {
+            var directive = {
+                restrict: 'A',
+                require: ['ngModel'],
+                link: link
+            };
+            return directive;
+
+            function link(scope, element, attr, ctrls) {
+                var ngModelController = ctrls[0];
+
+                ngModelController.$parsers.push(function (viewValue) {
+                    if (viewValue) {
+                        viewValue.setMinutes(viewValue.getMinutes() - viewValue.getTimezoneOffset());
+                    }
+                    return viewValue;
+                });
+            }
+        }
+    ]);
+
+    centerEndApp.controller('TopCtrl', function ($http, $scope, toaster, $element) {
+
+
+        //$http.get("/Home/UserInfo").then(function (result) {
+        //    if (result.data && result.data.Result) {
+        //        $scope.User = result.data.Data;
+        //    } else {
+        //        //window.location = '/Home/Index';
+        //    }
+        //}, function (error) {
+        //    toaster.error(error.message);
+        //    });
+
+        //$http.get("/Content/GetDictionary?code=QQ").then(function (result) {
+        //    if (result.data && result.data.Result) {
+        //        $scope.ServicesQQ = result.data.Data;
+        //    } else {
+        //        //window.location = '/Home/Index';
+        //    }
+        //}, function (error) {
+        //    toaster.error(error.message);
+        //});
+
+        //$scope.logout = function () {
+        //    $http.post("/Home/Logout").then(function (result) {
+        //        window.location = '/Home/Index';
+        //    });
+        //};
+
+        $scope.openModifyPassword = function () {
+            $scope.userPasswordInfo = {};
+            $scope.current = {};
+            $element.find(".ModifyUserPasswordModal").modal({
+                backdrop: false
+            });
+        };
+
+
+
+        $scope.modifyPassword = function (item) {
+            if (!item.OldPassowrd || !item.Password || !item.Password2) {
+                toaster.warning("输入的信息不完整");
+                return false;
+            }
+            if (item.Password !== item.Password2) {
+                toaster.warning("两次输入新密码不一致");
+                return false;
+            }
+
+            var request = { OriginPassword: item.OldPassowrd, NewPassword: item.Password };
+
+            $http.post("/Home/UpdateUserPwd", request).then(function (data) {
+                console.log(data.data.Result);
+                if (data.data.Result == true) {
+                    toaster.success("密码修改成功");
+                    $element.find(".ModifyUserPasswordModal").modal('hide');
+
+                }
+                else {
+                    toaster.error(data.data.Message);
+                }
+            });
+        };
+    });
+
+    centerEndApp.controller('CenterEndCtrl', function ($compile, $sce, $scope, $http, $location, $timeout, $ocLazyLoad, $element) {
+        $scope.tabs = [];
+
+        $scope.removeCallbacks = [];
+
+        var tabIndexInc = 1;
+        $scope.activeTab = {};
+        $scope.activeTabIndex = 0;
+        $scope.menus = [];
+        $http.get("/Home/GetMenus").then(function (response) {
+            if (response.data && response.data.Result) {
+                $scope.menus = response.data.Data;
+            }
+        });
+
+        $scope.picker = {
+            date: new Date('2015-03-01T00:00:00Z'),
+            datepickerOptions: {
+                showWeeks: false,
+                startingDay: 1,
+                dateDisabled: function (data) {
+                    return (data.mode === 'day' && (new Date().toDateString() == data.date.toDateString()));
+                }
+            }
+        };
+
+        $scope.openCalendar = function (e, picker) {
+            $scope.picker.open = true;
+        };
+
+        function getTab(comp) {
+            for (var ii = 0; ii < $scope.tabs.length; ii++) {
+                var tab = $scope.tabs[ii];
+                if (tab.ukey === comp.ukey) {
+                    return tab;
+                }
+            }
+            return null;
+        }
+
+        function setActiveTab(tab) {
+            if (!tab) return;
+
+            $scope.activeTab = tab;
+            $timeout(function () {
+                $scope.activeTabIndex = tab.index;
+            }, 0);
+
+            sessionStorage.setItem('__activeTab', JSON.stringify(tab));
+        }
+
+        $scope.onTabSelect = function (i) {
+            setActiveTab($scope.tabs[i]);
+        };
+
+        $scope.removeTab = function (i) {
+            var ukey = $scope.tabs[i].ukey;
+            var removingTabs = $scope.tabs.splice(i, 1);
+            if (removingTabs.length > 0) {
+                var callbackIndex = getRemovingTabIndex(removingTabs[0]);
+                if (callbackIndex > -1) {
+                    var callback = $scope.removeCallbacks[callbackIndex];
+                    callback.Callback();
+                    $scope.removeCallbacks.splice(callbackIndex, 1);
+                }
+            }
+
+            if (ukey === $scope.activeTab.ukey) {
+                var next = Math.min(i, $scope.tabs.length - 1);
+                setActiveTab(next > 0 ? $scope.tabs[next] : {});
+            }
+        };
+
+        function getRemovingTabIndex(removingTab) {
+            if ($scope.removeCallbacks) {
+                for (var i = 0; i < $scope.removeCallbacks.length; i++) {
+                    if ($scope.removeCallbacks[i].Key == removingTab) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+        }
+
+        $scope.removeCurrentTab = function () {
+            var index = $scope.tabs.indexOf($scope.activeTab);
+            $scope.removeTab(index);
+        };
+
+        $scope.registRemoveCallback = function (callback) {
+            $scope.removeCallbacks.push({ Key: $scope.activeTab, Callback: callback });
+        };
+
+        $scope.addTab = function (comp) {
+            if (!comp) return;
+            comp.ukey = '$' + comp.name + '$' + (comp.hash || '');
+
+            var exTab = getTab(comp);
+            if (exTab) {
+                setActiveTab(exTab);
+                return;
+            }
+
+            var markup = '<div ng-controller="' + comp.name + 'Ctrl">' +
+                '<div ng-include="tab.tabUrl"></div>' +
+                '</div>';
+            var newTab = {
+                ukey: comp.ukey,
+                title: comp.title,
+                content: markup,
+                name: comp.name,
+                index: tabIndexInc++,
+                tabUrl: '/Pages/' + comp.parent + '/' + (comp.foldername ? comp.foldername + "/" : "") + comp.name + ".html?title=" + comp.title + "&current=" + new Date().getTime(),
+                param: comp.param
+            };
+
+            $ocLazyLoad.load('/Pages/' + comp.parent + '/' + (comp.foldername ? comp.foldername + "/" : "") + comp.name + ".js" + "?current=" + new Date().getTime()).then(function () {
+                $scope.tabs.push(newTab);
+                //console.log(newTab);
+                setActiveTab(newTab);
+            });
+        };
+
+        /*
+            打开一个新的tab
+            title:Tab的名称
+            controllerName:控制器名称
+            folderName:文件夹
+            identifier:唯一标识符，防止重复打开一个Tab
+            param:参数对象
+            e.g.
+                $scope.createTab("商品管理", "sku", null, "123", { id: 1, name: "123" });
+        */
+        $scope.createTab = function (title, controllerName, folderName, identifier, params) {
+            var comp = {};
+            comp.hash = '$' + controllerName + '$' + (identifier || '');
+            comp.title = title;
+            comp.name = controllerName;
+            comp.param = params;
+            comp.parent = "";
+            comp.foldername = folderName;
+
+            $scope.addTab(comp);
+        };
+
+        $scope.getActivityTabParam = function () {
+            var value = sessionStorage.getItem('__activeTab');
+            var data = JSON.parse(value);
+            return data.param;
+        };
+
+        $scope.getTimestamp = function () {
+            return new Date().getTime();
+        };
+
+        $scope.doGet = function (url, data, successCallback, errorCallback) {
+            $http.get(url, data).then(function (response) {
+                if (successCallback && response.data) {
+                    successCallback(response.data);
+                }
+            }, function (error) {
+                if (errorCallback) {
+                    errorCallback(error);
+                }
+            });
+        };
+
+        $scope.doPost = function (url, data, successCallback, errorCallback) {
+            $http.post(url, data).then(function (response) {
+                if (successCallback && response.data) {
+                    successCallback(response.data);
+                }
+            }, function (error) {
+                if (errorCallback) {
+                    errorCallback(error);
+                }
+            });
+        };
+
+        $scope.doPut = function (url, data, successCallback, errorCallback) {
+            $http.put(url, data).then(function (response) {
+                if (successCallback && response.data) {
+                    successCallback(response.data);
+                }
+            }, function (error) {
+                if (errorCallback) {
+                    errorCallback(error);
+                }
+            });
+        };
+
+        $scope.doDelete = function (url, data, successCallback, errorCallback) {
+            $http.delete(url, data).then(function (response) {
+                if (successCallback && response.data) {
+                    successCallback(response.data);
+                }
+            }, function (error) {
+                if (errorCallback) {
+                    errorCallback(error);
+                }
+            });
+        };
+    });
+
+</script>
