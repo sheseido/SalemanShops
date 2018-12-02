@@ -48,6 +48,7 @@
     <Compile Include="SalemanBiz.cs" />
     <Compile Include="ShopsBiz.cs" />
     <Compile Include="SystemBiz.cs" />
+    <Compile Include="WaybillBiz.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\filter.data.entity\filter.data.entity.csproj">

@@ -148,7 +148,7 @@ namespace filter.business
                     var entity = item.Convert<ShopEntity>();
                     entity.SalemanId = saleman.Id;
                     entity.CreatedAt = DateTime.Now;
-                    entity.CreatedBy = 0;
+                    entity.CreatedBy = manager;
                     entities.Add(entity);
                     total += 1;
                 }

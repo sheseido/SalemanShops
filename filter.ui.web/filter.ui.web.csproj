@@ -149,6 +149,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SalemanController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
+    <Compile Include="Controllers\WaybillController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1083,6 +1084,8 @@
     <Content Include="Pages\Home\Shops.js" />
     <Content Include="Pages\Home\ShopsAdd.html" />
     <Content Include="Pages\Home\ShopsEdit.html" />
+    <Content Include="Pages\Home\Waybill.html" />
+    <Content Include="Pages\Home\Waybill.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1102,11 +1105,13 @@
     <Folder Include="Models\" />
     <Folder Include="Views\Saleman\" />
     <Folder Include="Views\Shops\" />
+    <Folder Include="Views\Waybill\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="conn.config" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Manager.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\filter.business\filter.business.csproj">

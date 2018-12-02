@@ -137,5 +137,19 @@ namespace filter.business
             ExcelHelper.WriteExcel(stream, "业务员店铺", data);
             return ResultBase<MemoryStream>.Sucess(stream);
         }
+
+        /// <summary>
+        /// 获取业务员所有运单导出数据
+        /// </summary>
+        /// <param name="manager"></param>
+        /// <returns></returns>
+        public ResultBase<MemoryStream> ExportSalemanAllWaybills(Dictionary<string, string> conditions)
+        {
+            List<WaybillExportWithPriceModel> data = salemanManager.GetSalemanAllWaybills(conditions).GetAwaiter().GetResult();
+
+            MemoryStream stream = new NPOIMemoryStream(false);
+            ExcelHelper.WriteExcel(stream, "业务员运单", data);
+            return ResultBase<MemoryStream>.Sucess(stream);
+        }
     }
 }

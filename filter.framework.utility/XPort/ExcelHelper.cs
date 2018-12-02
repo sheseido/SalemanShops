@@ -67,19 +67,32 @@ namespace filter.framework.utility.Xport
                             cell = row.GetCell(map.ColumnIndex);
                             if (cell != null)
                             {
-                                cell.SetCellType(CellType.String);
-                                if (map.ColumnName == "联系电话" || map.ColumnName == "订单编号"
-                                    || map.ColumnName == "联系手机" || map.ColumnName == "手机")
-                                    map.Property.SetValue(data, cell.StringCellValue.Replace("\"", "").Replace("=", "").Replace("'", ""));
+                                if (cell.CellType == CellType.Numeric)
+                                {
+                                    if (map.Property.PropertyType == typeof(double))
+                                        map.Property.SetValue(data, cell.NumericCellValue);
+                                    else if (cell.DateCellValue != null)
+                                        map.Property.SetValue(data, cell.DateCellValue.ToString("yyyy-MM-dd"));
+                                }
                                 else
-                                    map.Property.SetValue(data, cell.StringCellValue);
+                                {
+                                    if (!string.IsNullOrEmpty(cell.StringCellValue))
+                                    {
+                                        cell.SetCellType(CellType.String);
+                                        if (map.ColumnName == "联系电话" || map.ColumnName == "订单编号"
+                                            || map.ColumnName == "联系手机" || map.ColumnName == "手机")
+                                            map.Property.SetValue(data, cell.StringCellValue.Replace("\"", "").Replace("=", "").Replace("'", ""));
+                                        else
+                                            map.Property.SetValue(data, cell.StringCellValue);
+                                    }
+                                }
                             }
                         }
                         result.Add(data);
                     }
                     catch (Exception ex)
                     {
-                        throw ex;
+                        throw new Exception($"第{i}行,{ex.Message}");
                     }
                 }
             }

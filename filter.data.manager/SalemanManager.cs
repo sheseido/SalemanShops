@@ -91,5 +91,72 @@ WHERE
             var result = await FindAllAsync<ExportShopsModel>(sql);
             return result.ToList();
         }
+
+        /// <summary>
+        /// 获取业务员所有运单导出数据
+        /// </summary>
+        /// <param name="page">页码</param>
+        /// <param name="size">每页数据量</param>
+        /// <param name="conditions">条件</param>
+        /// <returns></returns>
+        public async Task<List<WaybillExportWithPriceModel>> GetSalemanAllWaybills(Dictionary<string, string> conditions)
+        {
+            StringBuilder query = new StringBuilder($@"
+SELECT 
+    waybill.Code,
+    waybill.Time,
+    shop.Name AS ShopName,
+    saleman.Name AS SalemanName,
+    waybill.Province,
+    waybill.City,
+    waybill.Weight,
+    saleman.SettlementPrice,
+    waybill.CreatedAt
+FROM
+    waybillinfo waybill
+        JOIN
+    shopinfo shop ON waybill.ShopId = shop.Id
+        JOIN
+    salemaninfo saleman ON waybill.SalemanId = saleman.Id
+WHERE
+    waybill.IsDelete = 0 ");
+
+            string key = "";
+            if (conditions.ContainsKey("Key"))
+            {
+                key = conditions["Key"];
+                if (!string.IsNullOrEmpty(key) && key != "undefined")
+                    query.Append(" AND waybill.Code LIKE @Key ");
+            }
+
+            string shopname = "";
+            if (conditions.ContainsKey("ShopName"))
+            {
+                shopname = conditions["ShopName"];
+                if (!string.IsNullOrEmpty(shopname) && shopname != "undefined")
+                    query.Append(" AND shop.Name LIKE @ShopName ");
+            }
+
+            string saleman = "";
+            if (conditions.ContainsKey("SalemanName"))
+            {
+                saleman = conditions["SalemanName"];
+                if (!string.IsNullOrEmpty(saleman) && saleman != "undefined")
+                    query.Append(" AND saleman.Name LIKE @SalemanName ");
+            }
+
+            string time = "";
+            if (conditions.ContainsKey("beginDate"))
+            {
+                time = conditions["beginDate"].Split('T')[0];
+                if (!string.IsNullOrEmpty(time) && time != "undefined")
+                    query.Append(" AND waybill.Time = @Time ");
+            }
+
+            query.Append(" ORDER BY waybill.Id DESC; ");
+
+            var result = await FindAllAsync<WaybillExportWithPriceModel>(query.ToString(), new { Key = $"%{key}%", ShopName = $"%{shopname}%", SalemanName = $"%{saleman}%", Time = $"{time}" });
+            return result.ToList();
+        }
     }
 }

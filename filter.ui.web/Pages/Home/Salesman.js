@@ -107,21 +107,5 @@
         $scope.tableParams.reload();
     };
 
-    $scope.export = function () {
-        var items = [];
-        for (var k in $scope.checkboxes.items) {
-            if ($scope.checkboxes.items.hasOwnProperty(k)) {
-                if ($scope.checkboxes.items[k]) {
-                    items.push(parseInt(k));
-                }
-            }
-        }
-        if (items.length == 0) {
-            toaster.warning("请选择业务员");
-            return;
-        }
-
-        document.location.href = "/Saleman/ExportSalemanAllShops?id=" + items[0];
-        $scope.tableParams.reload();
-    };
+    
 });

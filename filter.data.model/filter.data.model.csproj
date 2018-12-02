@@ -48,9 +48,11 @@
     <Compile Include="Dto\SaveShopsModel.cs" />
     <Compile Include="Dto\ShopsModel.cs" />
     <Compile Include="Dto\UploadExcelCheckResultModel.cs" />
+    <Compile Include="Dto\WaybillModel.cs" />
     <Compile Include="ExportShopsModel.cs" />
     <Compile Include="PagedData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WaybillExportModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\filter.framework.utility\filter.framework.utility.csproj">

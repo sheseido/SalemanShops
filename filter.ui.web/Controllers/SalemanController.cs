@@ -72,5 +72,20 @@ namespace filter.ui.web.Controllers
             var result = salemanBiz.ExportSalemanAllShops(id, out string salemanName);
             return File(result.Data, "application/vnd.ms-excel", $"{salemanName}-{ConvertHelper.ConvertDtToString(DateTime.Now)}-店铺数据.xlsx");
         }
+
+        /// <summary>
+        /// 导出业务员所有运单
+        /// </summary>
+        /// <returns></returns>
+        public FileResult ExportSalemanAllWaybill()
+        {
+            var result = salemanBiz.ExportSalemanAllWaybills(RequestDictionary);
+            var saleman = "";
+            if (RequestDictionary.ContainsKey("SalemanName")&& RequestDictionary["SalemanName"] != "undefined")
+            {
+                saleman = RequestDictionary["SalemanName"];
+            }
+            return File(result.Data, "application/vnd.ms-excel", $"{saleman}-运单数据.xlsx");
+        }
     }
 }

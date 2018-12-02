@@ -1,10 +1,44 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+﻿<fieldset>
+    <div class="container-fluid width_auto">
+        <div class="row form-group">
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <label>
+                    店铺名称
+                    <span style="color: red">*</span>
+                </label>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 input-group">
+                <input type="text" class="form-control" ng-model="current.Name" required="required" />
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <label>
+                    所属业务员
+                    <span style="color: red">*</span>
+                </label>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 input-group">
+                <input type="text" class="form-control" ng-model="current.SalemanName" required="required" />
 
-</body>
-</html>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <label>
+                    联系人
+                </label>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 input-group">
+                <input type="text" class="form-control" ng-model="current.Contact" />
+
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <label>
+                    联系人手机号
+                </label>
+            </div>
+            <div class="col-md-4 input-group">
+                <input type="text" class="form-control" ng-model="current.Mobile" />
+            </div>
+        </div>
+    </div>
+</fieldset>

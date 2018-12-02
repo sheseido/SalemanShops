@@ -28,6 +28,11 @@ namespace filter.business
                             title="店铺管理",
                              parent="home",
                        },
+                       new FuncItemResponse(){
+                            name="waybill",
+                            title="运单管理",
+                             parent="home",
+                       },
                    }
             });
             return ResultBase<List<FuncModel>>.Sucess(data);

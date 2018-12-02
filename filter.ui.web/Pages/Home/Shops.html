@@ -16,9 +16,9 @@
                 <button  class="btn btn-info-bgf ml10" ng-click="search();"> <i class="fa fa-search"></i>&nbsp;搜索</button>
                 <button class="btn btn-info-bgf ml10" ng-click="reset();"> <i class="fa fa-refresh"></i>&nbsp;重置</button>
                 <button class="btn btn-primary ml10" ngf-select="upload($file)" ngf-pattern="application/msexcel" ngf-accept="application/msexcel">导入店铺</button>
-                <!--<a class="pull-right btn btn-primary" href="javascript:void(0);" ng-click="add();">
+                <a class="pull-right btn btn-primary" href="javascript:void(0);" ng-click="add();">
                     <i class="fa fa-plus"></i>&nbsp;添加新{{pageTitle}}
-                </a>-->
+                </a>
             </div>
         </div>
         <table ng-table="tableParams" class="table table-condensed table-striped table-hover ng-table-responsive">
@@ -27,9 +27,9 @@
                     <input type="checkbox" ng-model="checkboxes.items[item.Id]" />
                 </td>
                 <td data-title="'店铺名称'">{{item.Name}}</td>
-                <td data-title="'联系人'">{{item.Contact}}</td>
-                <td data-title="'联系人手机'">{{item.Mobile}}</td>
                 <td data-title="'业务员'">{{item.SalemanName}}</td>
+                <td data-title="'店铺联系人'">{{item.Contact}}</td>
+                <td data-title="'店铺联系人手机'">{{item.Mobile}}</td>
                 <td data-title="'创建时间'">{{item.CreatedAt}}</td>
                 <td data-title="'操作'" class="text-center">
                     <a href="javascript:void(0)" ng-click="edit(item)" target="_blank" class="btn btn-primary btn-sm margin0">
