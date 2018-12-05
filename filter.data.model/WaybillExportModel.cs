@@ -10,7 +10,7 @@ namespace filter.data.model
     public class WaybillExportModel
     {
         [ExcelColumnName(ColumnName = "日期")]
-        public string Time { get; set; }
+        public DateTime Time { get; set; }
 
         [ExcelColumnName(ColumnName = "运单号")]
         public string Code { get; set; }

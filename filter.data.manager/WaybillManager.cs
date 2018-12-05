@@ -22,7 +22,7 @@ namespace filter.data.manager
             string colums = @" 
     waybill.Id,
     waybill.Code,
-    waybill.Time,
+    DATE_FORMAT(waybill.Time, '%Y-%m-%d') AS Time,
     shop.Name AS ShopName,
     saleman.Name AS SalemanName,
     waybill.Province,
@@ -63,15 +63,28 @@ WHERE
                     query.Append(" AND saleman.Name LIKE @SalemanName ");
             }
 
-            string time = "";
+            string beginDate = "";
             if (conditions.ContainsKey("beginDate"))
             {
-                time = conditions["beginDate"].Split('T')[0];
-                if (!string.IsNullOrEmpty(time))
-                    query.Append(" AND waybill.Time = @Time ");
+                beginDate = conditions["beginDate"];
+                query.Append(" AND waybill.Time >= @beginDate ");
             }
 
-            var result = await PagedFindAllAsync<WaybillModel>(query.ToString(), colums, page, size, new { Key = $"%{key}%", ShopName = $"%{shopname}%", SalemanName = $"%{saleman}%", Time = $"{time}" }, " Id desc ");
+            string endDate = "";
+            if (conditions.ContainsKey("endDate") && !string.IsNullOrWhiteSpace(conditions["endDate"]))
+            {
+                endDate = conditions["endDate"];
+                query.Append(" AND waybill.Time <= @endDate ");
+            }
+
+            var result = await PagedFindAllAsync<WaybillModel>(query.ToString(), colums, page, size, new
+            {
+                Key = $"%{key}%",
+                ShopName = $"%{shopname}%",
+                SalemanName = $"%{saleman}%",
+                beginDate,
+                endDate
+            }, " Id desc ");
             return result;
         }
     }

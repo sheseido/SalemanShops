@@ -104,7 +104,7 @@ WHERE
             StringBuilder query = new StringBuilder($@"
 SELECT 
     waybill.Code,
-    waybill.Time,
+    DATE_FORMAT(waybill.Time, '%Y-%m-%d') AS Time,
     shop.Name AS ShopName,
     saleman.Name AS SalemanName,
     waybill.Province,
@@ -145,17 +145,30 @@ WHERE
                     query.Append(" AND saleman.Name LIKE @SalemanName ");
             }
 
-            string time = "";
+            string beginDate = "";
             if (conditions.ContainsKey("beginDate"))
             {
-                time = conditions["beginDate"].Split('T')[0];
-                if (!string.IsNullOrEmpty(time) && time != "undefined")
-                    query.Append(" AND waybill.Time = @Time ");
+                beginDate = conditions["beginDate"];
+                query.Append(" AND waybill.Time >= @beginDate ");
+            }
+
+            string endDate = "";
+            if (conditions.ContainsKey("endDate") && !string.IsNullOrWhiteSpace(conditions["endDate"]))
+            {
+                endDate = conditions["endDate"];
+                query.Append(" AND waybill.Time <= @endDate ");
             }
 
             query.Append(" ORDER BY waybill.Id DESC; ");
 
-            var result = await FindAllAsync<WaybillExportWithPriceModel>(query.ToString(), new { Key = $"%{key}%", ShopName = $"%{shopname}%", SalemanName = $"%{saleman}%", Time = $"{time}" });
+            var result = await FindAllAsync<WaybillExportWithPriceModel>(query.ToString(), new
+            {
+                Key = $"%{key}%",
+                ShopName = $"%{shopname}%",
+                SalemanName = $"%{saleman}%",
+                beginDate,
+                endDate
+            });
             return result.ToList();
         }
     }

@@ -150,12 +150,15 @@
             saleman = $scope.condition.SalemanName;
         }
 
-        var time = "";
-        if ($scope.condition.beginDate != undefined) {
-            time = $scope.condition.beginDate.toISOString();
-        }
+        var beginDate = "";
+        if ($scope.condition.beginDate != undefined)
+            beginDate = $scope.condition.beginDate.toISOString();
+
+        var endDate = "";
+        if ($scope.condition.endDate != undefined)
+            endDate = $scope.condition.endDate.toISOString();
         
-        document.location.href = "/Saleman/ExportSalemanAllWaybill?Key=" + key + "&ShopName=" + shopname + "&SalemanName=" + saleman + "&beginDate=" + time;
+        document.location.href = "/Saleman/ExportSalemanAllWaybill?Key=" + key + "&ShopName=" + shopname + "&SalemanName=" + saleman + "&beginDate=" + beginDate + "&endDate=" + endDate;
         $scope.tableParams.reload();
     };
 });

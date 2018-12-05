@@ -19,12 +19,24 @@
             </div>
             <div class="col-md-2 input-group">
                 <label class="control-label">
-                    运单日期
+                    运单日期(起)
                 </label>
                 <div class="col-md-12 input-group">
-                    <input type="text" class="form-control" placeholder="" dtp-localdate datetime-picker="yyyy-MM-dd" ng-model="condition.beginDate" enable-time="true" is-open="isTimeStartOpen" />
+                    <input type="text" class="form-control" placeholder="起" dtp-localdate datetime-picker="yyyy-MM-dd" ng-model="condition.beginDate" enable-time="true" is-open="isTimeStartOpen" />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="isTimeStartOpen=true"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2 input-group">
+                <label class="control-label">
+                    运单日期(止)
+                </label>
+
+                <div class="col-md-12 input-group">
+                    <input type="text" class="form-control" placeholder="止" dtp-localdate datetime-picker="yyyy-MM-dd" ng-model="condition.endDate" enable-time="true" is-open="isTimeEndOpen" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="isTimeEndOpen=true"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </div>
             </div>

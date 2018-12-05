@@ -72,7 +72,7 @@ namespace filter.framework.utility.Xport
                                     if (map.Property.PropertyType == typeof(double))
                                         map.Property.SetValue(data, cell.NumericCellValue);
                                     else if (cell.DateCellValue != null)
-                                        map.Property.SetValue(data, cell.DateCellValue.ToString("yyyy-MM-dd"));
+                                        map.Property.SetValue(data, cell.DateCellValue);
                                 }
                                 else
                                 {

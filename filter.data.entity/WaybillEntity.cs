@@ -24,7 +24,7 @@ namespace filter.data.entity
         /// <summary>
         /// 运单日期
         /// </summary>
-        public string Time { get; set; }
+        public DateTime Time { get; set; }
 
         /// <summary>
         /// 店铺Id
