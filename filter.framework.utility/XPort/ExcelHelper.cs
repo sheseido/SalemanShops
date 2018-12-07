@@ -231,7 +231,12 @@ namespace filter.framework.utility.Xport
                     var value = mapping.Property.GetValue(data[i]);
                     if (value != null)
                     {
-                        row.CreateCell(mapping.ColumnIndex).SetCellValue(value.ToString());
+                        if (mapping.Property.PropertyType == typeof(double) || mapping.Property.PropertyType == typeof(decimal))
+                            row.CreateCell(mapping.ColumnIndex).SetCellValue(Convert.ToDouble(value));
+                        else if (mapping.Property.PropertyType == typeof(DateTime))
+                            row.CreateCell(mapping.ColumnIndex).SetCellValue(Convert.ToDateTime(value));
+                        else
+                            row.CreateCell(mapping.ColumnIndex).SetCellValue(value.ToString());
                     }
                 }
             }
