@@ -69,6 +69,17 @@ WHERE
         }
 
         /// <summary>
+        /// 通过店铺名查找
+        /// </summary>
+        /// <param name="salemanName"></param>
+        /// <returns></returns>
+        public async Task<ShopEntity> FindByNameWithDeleted(string name)
+        {
+            string sql = $" SELECT * FROM shopinfo WHERE Name='{name}'";
+            return await FindBySqlAsync<ShopEntity>(sql);
+        }
+
+        /// <summary>
         /// 通过业务员姓名查找
         /// </summary>
         /// <param name="salemanName"></param>

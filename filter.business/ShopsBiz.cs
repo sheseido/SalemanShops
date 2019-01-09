@@ -60,28 +60,45 @@ namespace filter.business
             if (saleman == null)
                 return ResultBase.Fail("业务员不存在,请检查");
 
-            if (request.Id == 0)
+            //判断有没有同名的店铺
+            var shop = await shopsManager.FindByNameWithDeleted(request.Name);
+            if (shop != null)
             {
-                ShopEntity entity = request.Convert<ShopEntity>();
-                entity.SalemanId = saleman.Id;
-                entity.CreatedAt = DateTime.Now;
-                entity.CreatedBy = 0;
-
-                await shopsManager.InsertAsync(entity);
+                if (shop.IsDelete)
+                {
+                    shop.IsDelete = false;
+                    shop.DeletedBy = 0;
+                    shop.DeletedAt = null;
+                    shop.UpdatedAt = DateTime.Now;
+                    shop.UpdatedBy = 0;
+                    await shopsManager.UpdateAsync(shop);
+                }
             }
             else
             {
-                var entity = shopsManager.FindById<ShopEntity>(request.Id);
-                if (entity == null)
-                    return ResultBase.Fail(Enum_ResultBaseCode.DataNotFoundError);
+                if (request.Id == 0)
+                {
+                    ShopEntity entity = request.Convert<ShopEntity>();
+                    entity.SalemanId = saleman.Id;
+                    entity.CreatedAt = DateTime.Now;
+                    entity.CreatedBy = 0;
 
-                entity.Name = request.Name;
-                entity.Contact = request.Contact;
-                entity.Mobile = request.Mobile;
-                entity.SalemanId = saleman.Id;
-                entity.UpdatedAt = DateTime.Now;
-                entity.UpdatedBy = 0;
-                await salemanManager.UpdateAsync(entity);
+                    await shopsManager.InsertAsync(entity);
+                }
+                else
+                {
+                    var entity = shopsManager.FindById<ShopEntity>(request.Id);
+                    if (entity == null)
+                        return ResultBase.Fail(Enum_ResultBaseCode.DataNotFoundError);
+
+                    entity.Name = request.Name;
+                    entity.Contact = request.Contact;
+                    entity.Mobile = request.Mobile;
+                    entity.SalemanId = saleman.Id;
+                    entity.UpdatedAt = DateTime.Now;
+                    entity.UpdatedBy = 0;
+                    await salemanManager.UpdateAsync(entity);
+                }
             }
             return ResultBase.Sucess();
         }
