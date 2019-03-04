@@ -119,7 +119,7 @@
                 }
             }).then(function (resp) {
                 if (resp.data.Result) {
-                    toaster.info("操作成功");
+                    toaster.info("操作成功," + resp.data.Result.Message);
                     $scope.tableParams.reload();
                 }
                 else

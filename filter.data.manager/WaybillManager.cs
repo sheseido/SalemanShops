@@ -1,4 +1,5 @@
-﻿using filter.data.model;
+﻿using filter.data.entity;
+using filter.data.model;
 using filter.data.model.Dto;
 using System;
 using System.Collections.Generic;
@@ -86,6 +87,12 @@ WHERE
                 endDate
             }, " Id desc ");
             return result;
+        }
+
+        public async Task<WaybillEntity> FindByCode(string code)
+        {
+            string sql = " SELECT * FROM waybillinfo WHERE Code=@Code AND IsDelete=0 LIMIT 0,1;";
+            return await FindBySqlAsync<WaybillEntity>(sql, new { Code = code });
         }
     }
 }

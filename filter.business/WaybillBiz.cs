@@ -100,12 +100,23 @@ namespace filter.business
                         return ResultBase.Fail($"第{index}行,运单号{item.Code},店铺{item.ShopName}业务员数据错误");
                 }
 
+                var successedCount = 0;
+                var exitsCount = 0;
+
                 //插入数据
                 List<int> taskIds = new List<int>();
                 foreach (var item in data)
                 {
                     //查找店铺
                     var shop = await shopsManager.FindByName(item.ShopName);
+
+                    //相同运单号跳过
+                    var waybill = waybillManager.FindByCode(item.Code);
+                    if (waybill != null)
+                    {
+                        exitsCount++;
+                        continue;
+                    }
 
                     WaybillEntity waybillEntity = new WaybillEntity()
                     {
@@ -120,11 +131,12 @@ namespace filter.business
                         CreatedBy = manager,
                     };
                     await waybillManager.InsertAsync(waybillEntity);
+                    successedCount++;
                 }
 
 
                 mLogHelper.Info($"导入执行完毕");
-                return ResultBase.Sucess();
+                return ResultBase.Sucess($"总数居:{data.Count},成功执行:{successedCount},存在相同运单数:{exitsCount}");
             }
             catch (Exception ex)
             {
