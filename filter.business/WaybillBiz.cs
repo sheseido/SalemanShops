@@ -111,8 +111,8 @@ namespace filter.business
                     var shop = await shopsManager.FindByName(item.ShopName);
 
                     //相同运单号跳过
-                    var waybill = waybillManager.FindByCode(item.Code);
-                    if (waybill != null)
+                    var waybill =await waybillManager.FindByCode(item.Code);
+                    if (waybill != null && !string.IsNullOrEmpty(waybill.Code))
                     {
                         exitsCount++;
                         continue;
